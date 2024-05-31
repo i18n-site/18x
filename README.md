@@ -125,10 +125,20 @@ use example :
 R("{cdn}", Jsd)
 ```
 
-### GLOBAL VARIABLE
+### I18N.SITE
+
+#### global variable
 
 [`x/_.js`](https://atomgit.com/i18n/18x/blob/dev/src/_.js)
 
 fJson / fMd : use _fp get real url, then fetch, return 0 if can't find the real url
 
 USE / MENU : hook form page or menu
+
+#### global css
+
+[`x/_.css`](https://atomgit.com/i18n/18x/blob/dev/src/_.css)
+
+```
+@import "//cdn.jsdelivr.net/npm/18x/_.css"
+```

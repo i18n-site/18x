@@ -70,7 +70,6 @@ const S = (cdn, proxy_li) => {
 		}
 
 		li.sort((a, b) => a[2][3] - b[2][3])
-		// console.log("cdn", JSON.stringify(li, null, 2))
 		li.forEach((i) => i[2].pop())
 		return li
 	}
@@ -148,7 +147,6 @@ const S = (cdn, proxy_li) => {
 							if (isOk(res)) {
 								info[2] += new Date() - begin
 								save(0)
-								console.log(host, info)
 								return res
 							}
 						} catch (err) {

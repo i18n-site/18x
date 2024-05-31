@@ -5,6 +5,61 @@
 // 网络加载1秒没响应,就返回缓存
 const S = (cdn, proxy_li) => {
 	let DB, CACHE
+	const init = (async () => {
+		;[DB, CACHE] = await Promise.all([
+			new Promise((resolve, reject) =>
+				Object.assign(indexedDB.open("S", 1), {
+					onupgradeneeded: (event) => {
+						const db = event.target.result
+						if (!db.objectStoreNames.contains(CDN)) {
+							db.createObjectStore(CDN, {
+								keyPath: H,
+							}).createIndex(H, H, { unique: true })
+						}
+					},
+					onsuccess: (event) => resolve(event.target.result),
+					onerror: (event) => reject(event.target.error),
+				}),
+			),
+			caches.open(1),
+		])
+	})()
+
+	const _match = (req, url) => (res) => {
+		const now = Int(new Date() / 1e3),
+			go = () => get(now, req, url)
+
+		if (res) {
+			const expire = res.headers.get(SLASH) // expire not exist for no-cors ( opaque type )
+			if (expire) {
+				if (Int(expire, 36) > now) {
+					return res
+				}
+				// ignore /.v
+				if ("." != url.pathname.split("/").pop()[0]) {
+					go()
+					return res
+				}
+			}
+			return new Promise((resolve) => {
+				const timer = setTimeout(() => {
+					resolve(res)
+				}, 1e3)
+				go().then((r) => {
+					clearTimeout(timer)
+					resolve(r)
+				})
+			})
+		}
+		return go()
+	}
+
+	let match = (req, url) => async (res) => {
+		// active 这个事件在chorme中手动强制停止 service worker 之后再刷新页面不会触发 , 所以采用这种方式确保初始化
+		await init
+		match = _match
+		return _match(req, url)(res)
+	}
 
 	const { log } = Math
 	const CDN = "cdn",
@@ -130,8 +185,7 @@ const S = (cdn, proxy_li) => {
 			// }
 			return res
 		},
-		get = async (now, req) => {
-			const url = new URL(req.url)
+		get = async (now, req, url) => {
 			for (const f of proxy_li) {
 				let li = f(url)
 				if (li) {
@@ -193,77 +247,34 @@ const S = (cdn, proxy_li) => {
 		}
 	for (const [k, v] of Object.entries({
 		install: (event) => {
-			event.waitUntil(
-				(async () => {
-					;[DB, CACHE] = await Promise.all([
-						new Promise((resolve, reject) =>
-							Object.assign(indexedDB.open("S", 1), {
-								onupgradeneeded: (event) => {
-									const db = event.target.result
-									if (!db.objectStoreNames.contains(CDN)) {
-										db.createObjectStore(CDN, {
-											keyPath: H,
-										}).createIndex(H, H, { unique: true })
-									}
-								},
-								onsuccess: (event) => resolve(event.target.result),
-								onerror: (event) => reject(event.target.error),
-							}),
-						),
-						caches.open(1),
-					])
-				})(),
-			)
+			event.waitUntil(self.skipWaiting())
 		},
+		// 这个事件在chorme中手动强制停止 service worker 之后再刷新页面不会触发
 		activate: (event) => event.waitUntil(clients.claim()),
 		fetch: (event) => {
-			let req = event.request
-			const { url, method } = req
+			let req = event.request,
+				{ url, method } = req
 			if (!(url.startsWith("http") && ["GET", "OPTIONS"].includes(method))) {
 				return
 			}
-			const { host, pathname } = new URL(url)
-			if (host === HOST && !pathname.includes(".")) {
-				req = new Request("/", {
-					method: method,
-				})
+			const { host, pathname } = (url = new URL(url))
+			if (host == HOST) {
+				if (pathname == "/_") {
+					event.respondWith(
+						new Response(_.js, {
+							headers: { "Content-Type": "text/javascript" },
+						}),
+					)
+					return
+				}
+				// 单页面应用
+				if (!pathname.includes(".")) {
+					req = new Request("/", {
+						method: method,
+					})
+				}
 			}
-			if (url.endsWith("/_")) {
-				event.respondWith(
-					new Response(_.js, {
-						headers: { "Content-Type": "text/javascript" },
-					}),
-				)
-				return
-			}
-			event.respondWith(
-				caches.match(req).then(async (res) => {
-					const now = Int(new Date() / 1e3)
-					if (res) {
-						const expire = res.headers.get(SLASH) // expire not exist for no-cors ( opaque type )
-						if (expire) {
-							if (Int(expire, 36) > now) {
-								return res
-							}
-							// ignore /.v
-							if ("." != pathname.split("/").pop()[0]) {
-								get(now, req)
-								return res
-							}
-						}
-						return new Promise((resolve) => {
-							const timer = setTimeout(() => {
-								resolve(res)
-							}, 1e3)
-							get(now, req).then((r) => {
-								clearTimeout(timer)
-								resolve(r)
-							})
-						})
-					}
-					return get(now, req)
-				}),
-			)
+			event.respondWith(caches.match(req).then(match(req, url)))
 		},
 	})) {
 		addEventListener(k, v)

@@ -30,7 +30,7 @@ export default miniCss = =>
           join(LIB, fp.slice(0,-5)+'.css')
           stylus(
             read join SRC, fp
-          ).render()
+          ).set('paths', [SRC]).render()
         )
 
   for await fp from walkRel LIB

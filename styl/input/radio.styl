@@ -1,0 +1,48 @@
+
+input[type=radio]
+  display none
+
+  &+label
+    cursor pointer
+    display flex
+    flex 1
+    justify-content space-between
+    position relative
+    user-select none
+
+    &:before
+      border 2px solid #000
+      border-radius 14px
+      content ''
+      display block
+      height 12px
+      margin-top -8px
+      position absolute
+      top 50%
+      width @height
+
+    &:after
+      background transparent
+      border-radius 8px
+      content ''
+      height 8px
+      left 4px
+      margin-top -4px
+      position absolute
+      top 50%
+      width @height
+
+    &:after, &:before
+      transition all 0.3s ease-in-out
+
+  &:checked+label
+    &:after
+      background #000
+
+  &:hover+label, &+label:hover
+    &:before
+      border-color #f40
+
+  &:checked:hover+label, &:checked+label:hover
+    &:after
+      background #f40

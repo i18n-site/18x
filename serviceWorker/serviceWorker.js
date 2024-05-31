@@ -153,6 +153,8 @@ const S = (cdn, proxy_li) => {
 							console.error(furl, err)
 						}
 						li.push(li.shift())
+						// 失败了 成功次数减半
+						info[0] = Math.round(info[0] / 2)
 						save(1)
 					}
 				}

@@ -11,12 +11,24 @@ Before use , you should define import map in HTML
 For example [importmap](https://developer.mozilla.org/docs/Web/HTML/Element/script/type/importmap)
 
 ```html
-<script type="importmap">{"imports":{"x/":"//cdn.jsdelivr.net/npm/18x/"}}</script>
+<script type="importmap">{"imports":{"x/":"//jsd.cdn.zzko.cn/npm/18x/"}}</script>
 ```
 
-You can replace `//cdn.jsdelivr.net/npm/` as your own CDN in above code
+You can replace `//jsd.cdn.zzko.cn/npm/18x/` as your own CDN in above code
 
 ## File
+
+### toast
+
+[`x/toast.js`](https://atomgit.com/i18n/18x/blob/dev/src/toast.js)
+
+[`x/toast.css`](https://atomgit.com/i18n/18x/blob/dev/src/toast.css)
+
+![](https://i-01.eu.org/1717155390.avif)
+
+A notification message pops up in the lower-left corner of the webpage.
+
+When a request using `./f.js` fails, it will call this to display an error message.
 
 ### Box
 
@@ -78,7 +90,7 @@ screenshot example :
 
 ### Channel
 
-#### initC.js
+#### [`initC.js`](https://atomgit.com/i18n/18x/blob/dev/src/initC.js)
 
 init channel and generate function
 
@@ -101,9 +113,16 @@ use `./serviceWorker.build.coffee` generate service worker S.js from `./serviceW
 
 write your service worker as below
 
+[`x/Jsd.js`](//atomgit.com/i18n/18x/blob/dev/src/jsd.js) jsdelivr mirror for serviceWorker
+
+use example :
+
 ```
-importScripts("//cdn.jsdelivr.net/npm/18x/S.js");
-R("xxx.com/", "i18n.site/")
+['S','Jsd'].forEach(
+  (i)=>importScripts(`//jsd.cdn.zzko.cn/npm/18x/${i}.js`)
+)
+
+R("{cdn}", Jsd)
 ```
 
 ### GLOBAL VARIABLE

@@ -15,7 +15,6 @@ const R = (API) => {
 			return
 		}
 
-
 		WS = new WebSocket(
 			`wss://${API}ws/` +
 				user

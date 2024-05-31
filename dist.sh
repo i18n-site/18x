@@ -5,7 +5,12 @@ cd $DIR
 set -ex
 
 rm -rf lib
-direnv exec . ./swc.coffee
+de() {
+  direnv exec . $@
+}
+de ./swc.coffee
+fd --type file --regex '.*.css' lib | xargs -I {} bash -c "X=\$(bun x minify {}) && echo \$X > {}"
+de ./pkg.ver.coffee
 gci
 cp README.md lib
 cd lib

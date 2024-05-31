@@ -6,13 +6,13 @@
 const S = (cdn, proxy_li) => {
 	let DB, CACHE
 
+	const { log } = Math
 	const CDN = "cdn",
 		H = "H",
 		{ protocol, host: HOST } = location,
 		SLASH = "-",
 		Int = parseInt,
-		isOk = (res) =>
-			res && ([200, 301, 304].includes(res.status) || res.type == "opaque")
+		isOk = (res) => [200, 301, 304].includes(res?.status)
 
 	const cdnHost = new Map()
 	const cdnStore = (mode) => DB.transaction([CDN], mode).objectStore(CDN)
@@ -50,11 +50,16 @@ const S = (cdn, proxy_li) => {
 									[ok, err, cost] = i
 								/*
                   (ok+err)/ok = 多少个请求才有一个成功
+                    -> (Math.log(err)+Math.log(ok))/Math.log(ok) 错误惩罚更加严重
+                    = log((err+1)*(ok+1)) / log(ok+1)
                   cost / ok = 每个成功请求要多少毫秒 
                   为了防止一直失败导致cost为0，进而请求耗时一直为0，cost加上一个常量1e5
                   score = 要多少毫秒才能有一次请求成功
                 */
-								i.push((ok + err) * ((cost + 1e5) / (ok * ok + 1)))
+								i.push(
+									(log((err + 1) * (ok + 1)) * (cost + 1e5)) /
+										(log(ok + 1) * ok + 1),
+								)
 								push(i)
 							} else {
 								push()
@@ -70,6 +75,7 @@ const S = (cdn, proxy_li) => {
 		}
 
 		li.sort((a, b) => a[2][3] - b[2][3])
+
 		li.forEach((i) => i[2].pop())
 		return li
 	}
@@ -89,8 +95,9 @@ const S = (cdn, proxy_li) => {
 			//   res = await fetch(req)
 			const res = await fetch(fetch_req)
 			if (isOk(res)) {
-				const rc = new Response(res.clone().body, res),
-					file = url.pathname.split("/").pop()
+				const rc = new Response(res.clone().body, res)
+				const file = url.pathname.split("/").pop()
+
 				let sec
 				if (file[0] == ".") {
 					sec = 30 // cache .v and so some for 30 sec
@@ -109,9 +116,18 @@ const S = (cdn, proxy_li) => {
 					// max cache age is 8 day = 7e5/86400
 					rc.headers.set(SLASH, (now + Math.min(sec, 7e5)).toString(36))
 				}
-				// 始终缓存，这样网络故障也可以返回之前的版本
 				CACHE.put(cache_req, rc)
+				// 始终缓存，这样网络故障也可以返回之前的版本
 			}
+			// else {
+			// 		const { type } = res
+			// 		if (type == "opaque") {
+			// 			rc = res.clone()
+			// 		}
+			// 	}
+			// if (rc) {
+			// 	CACHE.put(cache_req, rc)
+			// }
 			return res
 		},
 		get = async (now, req) => {
@@ -157,6 +173,12 @@ const S = (cdn, proxy_li) => {
 					}
 				}
 			}
+
+			// disable no-cors , no-cors can't get cache max-age
+			if (req.mode == "no-cors") {
+				req = new Request(url, { method: req.method })
+			}
+
 			let n = 0
 			while (true) {
 				try {
@@ -218,13 +240,16 @@ const S = (cdn, proxy_li) => {
 				caches.match(req).then(async (res) => {
 					const now = Int(new Date() / 1e3)
 					if (res) {
-						if (Int(res.headers.get(SLASH), 36) > now) {
-							return res
-						}
-						// ignore /.v
-						if ("." != pathname.split("/").pop()[0]) {
-							get(now, req)
-							return res
+						const expire = res.headers.get(SLASH) // expire not exist for no-cors ( opaque type )
+						if (expire) {
+							if (Int(expire, 36) > now) {
+								return res
+							}
+							// ignore /.v
+							if ("." != pathname.split("/").pop()[0]) {
+								get(now, req)
+								return res
+							}
 						}
 						return new Promise((resolve) => {
 							const timer = setTimeout(() => {

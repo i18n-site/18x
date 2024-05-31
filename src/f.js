@@ -1,5 +1,11 @@
 import { toastErr } from "x/toast.js"
 
+const tErr = (url, err) =>
+	// 不然会附加到验证码弹出层被关掉
+	setTimeout(() =>
+		toastErr("✕ " + url.slice(url.indexOf("//") + 2) + " " + err),
+	)
+
 const f = (method) => async (url, opt) => {
 	let r, status
 	try {
@@ -17,15 +23,13 @@ const f = (method) => async (url, opt) => {
 			return await r[method]()
 		}
 	} catch (e) {
-		// 不然会附加到验证码弹出层被关掉
-		setTimeout(() => toastErr(url + " " + e.toString()))
+		tErr(url, e)
 		throw e
 	}
+
 	// 验证码用的代码
 	if (![401, 417, 402].includes(status)) {
-		setTimeout(() =>
-			toastErr("HTTP " + status + " " + url.slice(url.indexOf("//") + 2)),
-		)
+		tErr(url, status)
 	}
 
 	throw r

@@ -68,7 +68,7 @@ class TOAST
     if timeout
       setTimeout(
         close_func
-        timeout*1e5
+        timeout*1e3
       )
     return elem
 

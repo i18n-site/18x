@@ -10,6 +10,7 @@ rsync -av --include='*/' \
 dir=$(pwd)
 bun x cep -o $dir/lib -c $dir/src &
 
+direnv exec . ./serviceWorker.build.coffee
 wait || \
   {
     echo "error : $?" >&2

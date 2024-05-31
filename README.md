@@ -24,7 +24,10 @@ You can replace `//jsd.cdn.zzko.cn/npm/18x/` as your own CDN in above code
 
 [`x/toast.css`](https://atomgit.com/i18n/18x/blob/dev/src/toast.css)
 
-![](https://i-01.eu.org/1717155390.avif)
+<p style="display:flex">
+<img width="445" src="https://i-01.eu.org/1717170312.avif"/>
+<img width="281" src="https://i-01.eu.org/1717169607.avif"/>
+</p>
 
 A notification message pops up in the lower-left corner of the webpage.
 
@@ -33,12 +36,13 @@ When a request using `./f.js` fails, it will call this to display an error messa
 ### Box
 
 [`x/xBox.js` : pop up box with close button](https://atomgit.com/i18n/18x/blob/dev/src/xBox.coffee)
+[`x/box.js` : pop up box style ](https://atomgit.com/i18n/18x/blob/dev/src/box.styl)
 
 screenshot example :
 
 <p style="display:flex">
 <img width="300" src="https://i-01.eu.org/1716640762.avif"/>
-<img width="300" src="https://i-01.eu.org/1716640899.avif"/>
+<img width="425" src="https://i-01.eu.org/1716640899.avif"/>
 </p>
 
 [`x/Box.js`](https://atomgit.com/i18n/18x/blob/dev/src/Box.coffee): base pop up box
@@ -125,10 +129,29 @@ use example :
 R("{cdn}", Jsd)
 ```
 
-### GLOBAL VARIABLE
+### SVG
+
+[svg](https://atomgit.com/i18n/18x/tree/dev/svg)
+
+use [svgVar.coffee](https://atomgit.com/i18n/18x/tree/dev/svgVar.coffee) generate [svg.css](https://registry.npmmirror.com/18x/latest/files/svg.css) with inline svg var
+
+#### CSS
+
+[`_.css`](https://atomgit.com/i18n/18x/blob/dev/src/_.css) css on in one
+
+```
+@import "//cdn.jsdelivr.net/npm/18x/_.css"
+```
+
+[`reset.css`](https://atomgit.com/i18n/18x/blob/dev/src/reset.styl) reset css
+
+### I18N.SITE
+
+#### global variable
 
 [`x/_.js`](https://atomgit.com/i18n/18x/blob/dev/src/_.js)
 
 fJson / fMd : use _fp get real url, then fetch, return 0 if can't find the real url
 
 USE / MENU : hook form page or menu
+

@@ -28,7 +28,7 @@
 }
 
 .toast.ERR>.x {
-  background-image: var(--svg-x);
+  background-image: var(--svgX);
   filter: invert(42%) sepia(1) saturate(15);
 }
 
@@ -37,7 +37,7 @@
 }
 
 .toast>.x {
-  background: var(--svg-x) 0 0/cover no-repeat;
+  background: var(--svgX) 0 0/cover no-repeat;
   cursor: pointer;
   display: block;
   height: 18px;

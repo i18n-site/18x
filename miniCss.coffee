@@ -2,33 +2,49 @@
 
 > @3-/read
   @3-/write
+  @3-/walk > walkRel
   path > join extname
-  fs > readdirSync
+  stylus
+  fs > copyFileSync readdirSync mkdirSync existsSync
   clean-css:cleanCSS
 
 ROOT = import.meta.dirname
+SRC = join ROOT, 'src'
+LIB = join ROOT, 'lib'
 
 export default miniCss = =>
-  srcDir = join ROOT, 'src'
-  libDir = join ROOT, 'lib'
 
-  files = readdirSync(srcDir)
+  if not existsSync(LIB)
+    mkdirSync LIB
 
-  for file in files
-    if extname(file) is '.css'
-      srcFilePath = join(srcDir, file)
-      libFilePath = join(libDir, file)
+  for await fp from walkRel SRC
+    ext = fp.split('.').pop()
+    switch ext
+      when 'css'
+        copyFileSync(
+          join(SRC, fp)
+          join(LIB, fp)
+        )
+      when 'styl'
+        write(
+          join(LIB, fp.slice(0,-5)+'.css')
+          stylus(
+            read join SRC, fp
+          ).set('paths', [SRC]).render()
+        )
 
-      cssContent = read srcFilePath
-
+  for await fp from walkRel LIB
+    if fp.endsWith '.css'
+      fp = join LIB, fp
       output = new cleanCSS(
         inline : false
-      ).minify(cssContent)
-
+      ).minify(
+        read fp
+      )
       if output.styles
-        write(libFilePath, output.styles)
+        write(fp, output.styles)
       if output.errors.length
-        console.log file
+        console.log fp
         console.log ' ',...output.errors
   return
 

@@ -3,7 +3,7 @@ import { toastErr } from "x/toast.js"
 const tErr = (url, err) =>
 	// 不然会附加到验证码弹出层被关掉
 	setTimeout(() =>
-		toastErr("✕ " + url.slice(url.indexOf("//") + 2) + " " + err),
+		toastErr("⚠️ " + url.slice(url.indexOf("//") + 2) + " " + err),
 	)
 
 const f = (method) => async (url, opt) => {

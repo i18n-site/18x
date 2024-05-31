@@ -9,6 +9,7 @@
   coffeescript:CoffeeScript
   ./serviceWorker.build.coffee:serviceWorkerBuild
   ./miniCss.coffee
+  ./svgVar.coffee
 
 serviceWorkerBuild()
 
@@ -34,5 +35,7 @@ for await fp from walk(SRC)
   js = join(LIB, outname)
   write(js,code)
   write(js+'.map',map)
+
+svgVar()
 
 miniCss()

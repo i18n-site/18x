@@ -3,14 +3,22 @@ rm -rf lib
 
 rsync -av --include='*/' \
   --include='*.js' \
-  --include='*.css' \
   --include='*.mjs' \
   --exclude=* src/ lib/ &
 
 dir=$(pwd)
 bun x cep -o $dir/lib -c $dir/src &
 
-direnv exec . ./serviceWorker.build.coffee
+de(){
+  direnv exec . $@ &
+}
+
+de ./serviceWorker.build.coffee
+
+de ./svgVar.coffee
+
+de ./miniCss.coffee
+
 wait || \
   {
     echo "error : $?" >&2

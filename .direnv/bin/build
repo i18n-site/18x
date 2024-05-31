@@ -3,6 +3,7 @@ rm -rf lib
 
 rsync -av --include='*/' \
   --include='*.js' \
+  --include='*.css' \
   --include='*.mjs' \
   --exclude=* src/ lib/ &
 

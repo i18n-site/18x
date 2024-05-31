@@ -10,10 +10,17 @@
         "noDoubleEquals": "off",
         "noCatchAssign": "off"
       },
+      "security": {
+        "noGlobalEval": "off"
+      },
       "style": {
+        "noParameterAssign": "off",
         "useNumberNamespace": "off",
         "useTemplate": "off",
         "useSingleVarDeclarator": "off"
+      },
+      "complexity": {
+        "noForEach": "off"
       }
     }
   },

@@ -5,7 +5,11 @@ cd $DIR
 set -ex
 
 rm -rf lib
-direnv exec . ./swc.coffee
+de() {
+  direnv exec . $@
+}
+de ./swc.coffee
+de ./pkg.ver.coffee
 gci
 cp README.md lib
 cd lib

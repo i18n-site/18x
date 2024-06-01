@@ -145,6 +145,64 @@ use [svgVar.coffee](https://atomgit.com/i18n/18x/tree/dev/svgVar.coffee) generat
 
 [`reset.css`](https://atomgit.com/i18n/18x/blob/dev/src/reset.styl) reset css
 
+### Route
+
+[x/removeSlash.js](//atomgit.com/i18n/18x/blob/dev/src/removeSlash.coffee) remove last /
+[x/route.js](//atomgit.com/i18n/18x/blob/dev/src/route.coffee) 路径 - 回调函数 ( func(url, PRE) )
+[x/Match.js](//atomgit.com/i18n/18x/blob/dev/src/Match.coffee) 路由匹配, 用法如:
+
+```svelte
+<template lang="pug">
+Topbar
+  TopbarR
+<svelte:component this="{M}"/>
+</template>
+
+<script lang="coffee">
+> @8p/nav:
+  @8p/h404:H404
+  @8p/topbar:Topbar
+  @8p/wait:Wait
+  svelte > tick
+  ./TopbarR.svelte
+  x/route.js
+  x/Match.js
+
+M = Wait
+
+page = (m)=>
+  M = Wait
+  await tick()
+  M = m
+  return
+
+match = Match(
+  page
+  =>
+    M = H404
+    return
+)
+
+route (url)=>
+  match url
+  return
+
+onI18n =>
+  match location.pathname.slice(1)
+  return
+</script>
+```
+[x/selfA.js](//atomgit.com/i18n/18x/blob/dev/src/selfA.coffee) 判断A标签的href是否为当前网站的, 如果是, 返回url, 以实现不刷新跳转
+[x/setUrl.js](//atomgit.com/i18n/18x/blob/dev/src/setUrl.coffee) 设置浏览器网址不触发路由事件 ( 比如用于多文件的目录章节导航 )
+[x/goto.js](//atomgit.com/i18n/18x/blob/dev/src/goto.coffee) 设置浏览器网址并触发路由事件
+[x/a.js](//atomgit.com/i18n/18x/blob/dev/src/a.coffee) 监听所有的A标签, 当点击时, 如果是当前网站的路径, 则阻止默认事件并触发路由(`goto`) , 如果是外站路径, 自动添加 `target="_blank"`
+[x/forceGoto.js](//atomgit.com/i18n/18x/blob/dev/src/forceGoto.coffee) 强制刷新(因为当网址不变的时候默认不刷新, 会导致比如支付成功的跳转不成功, 这时候就需要强制刷新, 参见 [pay/src/TopUp.svelte](https://atomgit.com/i18n/plugin/blob/dev/pay/src/TopUp.svelte)
+
+
+### Util
+
+[x/split.js](//atomgit.com/i18n/18x/blob/dev/src/split.coffee) split string into 2 parts
+
 ### I18N.SITE
 
 #### global variable

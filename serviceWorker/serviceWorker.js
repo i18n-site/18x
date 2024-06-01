@@ -5,25 +5,6 @@
 // 网络加载1秒没响应,就返回缓存
 const S = (cdn, proxy_li) => {
 	let DB, CACHE
-	const init = (async () => {
-		;[DB, CACHE] = await Promise.all([
-			new Promise((resolve, reject) =>
-				Object.assign(indexedDB.open("S", 1), {
-					onupgradeneeded: (event) => {
-						const db = event.target.result
-						if (!db.objectStoreNames.contains(CDN)) {
-							db.createObjectStore(CDN, {
-								keyPath: H,
-							}).createIndex(H, H, { unique: true })
-						}
-					},
-					onsuccess: (event) => resolve(event.target.result),
-					onerror: (event) => reject(event.target.error),
-				}),
-			),
-			caches.open(1),
-		])
-	})()
 
 	const _match = (req, url) => (res) => {
 		const now = Int(new Date() / 1e3),
@@ -57,9 +38,29 @@ const S = (cdn, proxy_li) => {
 	let match = (req, url) => async (res) => {
 		// active 这个事件在chorme中手动强制停止 service worker 之后再刷新页面不会触发 , 所以采用这种方式确保初始化
 		await init
-		match = _match
-		return _match(req, url)(res)
+		return match(req, url)(res)
 	}
+
+	const init = (async () => {
+		;[DB, CACHE] = await Promise.all([
+			new Promise((resolve, reject) =>
+				Object.assign(indexedDB.open("S", 1), {
+					onupgradeneeded: (event) => {
+						const db = event.target.result
+						if (!db.objectStoreNames.contains(CDN)) {
+							db.createObjectStore(CDN, {
+								keyPath: H,
+							}).createIndex(H, H, { unique: true })
+						}
+					},
+					onsuccess: (event) => resolve(event.target.result),
+					onerror: (event) => reject(event.target.error),
+				}),
+			),
+			caches.open(1),
+		])
+		match = _match
+	})()
 
 	const { log } = Math
 	const CDN = "cdn",

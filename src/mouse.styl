@@ -1,0 +1,70 @@
+$curW = 5px
+
+.cur
+  left 0
+  pointer-events none
+  position fixed
+  top 0
+
+.cup
+  z-index 1000001
+
+  &:after
+    background #000
+    border-radius 50%
+    height 4px
+    left -2px
+    top -2px
+    transition all 1s
+    width 4px
+
+  &:before
+    background rgba(255, 255, 255, 0.5)
+    border-radius 50%
+    height 2 * $curW
+    left -1 * $curW
+    mix-blend-mode screen
+    top -1 * $curW
+    transition all 1s
+    width 2 * $curW
+
+  &:after, &:before
+    content ''
+    position absolute
+
+body, body a, body button
+  cursor none
+
+.cup
+  &.A, &.BUTTON
+    &:after
+      height $curW
+      left -0.5 * $curW
+      opacity 0
+      top -0.5 * $curW
+      width $curW
+
+    &:before
+      background rgba(31, 86, 255, 0.5)
+      height 2 * $curW * 2
+      left -1 * $curW * 2
+      top -1 * $curW * 2
+      width 2 * $curW * 2
+
+  &.BUTTON:before
+    background rgba(255, 86, 31, 0.5)
+
+  &.I
+    &:after
+      background rgba(252, 86, 31, 0.2)
+      height 2 * $curW
+      left -1 * $curW
+      top -1 * $curW
+      width 2 * $curW
+
+    &:before
+      opacity 0
+
+  &.H
+    &:after, &:before
+      opacity 0

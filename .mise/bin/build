@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+rm -rf lib
+
+rsync -av --include='*/' \
+  --include='*.js' \
+  --include='*.mjs' \
+  --exclude=* src/ lib/ &
+
+dir=$(pwd)
+bun x cep -o $dir/lib -c $dir/src &
+
+de(){
+  direnv exec . $@ &
+}
+
+de ./serviceWorker.build.coffee
+
+de ./miniCss.coffee
+
+wait || \
+  {
+    echo "error : $?" >&2
+    exit 1
+  }
+

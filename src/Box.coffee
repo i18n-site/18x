@@ -11,7 +11,8 @@
       return
   }
 
-  body.append dialog
+  # 不能用 body.append , 不然 chrome bitwarden 会让验证码弹出层到下面
+  body.prepend dialog
   dialog.addEventListener(
     'cancel'
     (e) =>

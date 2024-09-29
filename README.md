@@ -20,7 +20,7 @@ You can replace `//jsd.cdn.zzko.cn/npm/18x/` as your own CDN in above code
 
 ### toast
 
-[`x/toast.js`](https://atomgit.com/i18n/18x/blob/dev/src/toast.js)
+[`x/toast.js`](https://atomgit.com/i18n/18x/blob/dev/src/toast.coffee)
 
 [`x/toast.css`](https://atomgit.com/i18n/18x/blob/dev/src/toast.css)
 
@@ -48,8 +48,6 @@ screenshot example :
 [`x/Box.js`](https://atomgit.com/i18n/18x/blob/dev/src/Box.coffee): base pop up box
 
 [`x/htmBox.js`](https://atomgit.com/i18n/18x/blob/dev/src/htmBox.coffee): pop up box with html
-
-[`x/pbox.js`](https://atomgit.com/i18n/18x/blob/dev/src/pbox.coffee): find parent dialog for box ( use for event.target )
 
 [`x/tagBox.js`](https://atomgit.com/i18n/18x/blob/dev/src/tagBox.coffee): create a box , append with the new tag
 
@@ -213,3 +211,6 @@ fJson / fMd : use _fp get real url, then fetch, return 0 if can't find the real 
 
 USE / MENU : hook form page or menu
 
+## About Us
+
+[i18n.site](https://i18n.site)

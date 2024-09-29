@@ -52,7 +52,7 @@ export default miniCss = =>
   fp = join LIB,'_.css'
   write(
     fp
-    '@import "mouse.css" (any-hover:hover);'+read(fp)+await svgVar()
+    read(fp)+await svgVar()
   )
   return
 

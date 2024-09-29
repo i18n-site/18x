@@ -10,7 +10,9 @@ export default (proxy_li, V, X) => {
 		WOFF2 = ".woff2",
 		NO_CORS = "no-cors",
 		NO_REWRTE = new Set(
-			"avif|css|html|ico|js|json|png|svg|txt|webmanifest|xml".split("|"),
+			"js|css|htm|html|md|avif|rss|gz|ico|json|png|svg|txt|webmanifest|xml".split(
+				"|",
+			),
 		),
 		_match = (req, url) => (res) => {
 			const now = Int(new Date() / 1e3),

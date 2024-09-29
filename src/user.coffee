@@ -12,7 +12,8 @@ HOOK = new Set
 
 export onUser = (f)=>
   HOOK.add f
-  f USER
+  if USER != undefined
+    f USER
   =>
     HOOK.delete f
     return
@@ -35,6 +36,13 @@ save = =>
   localStorage.U = JSON.stringify(t)
   return
 
+isSame = (user)=>
+  if user then (
+    USER and USER.every((v,p)=> user[p]==v)
+  ) else (
+    false == USER
+  )
+
 _setUser = (user)=>
   if user
     lang = user[2]
@@ -44,6 +52,7 @@ _setUser = (user)=>
         langSet LANG = lang
   else
     user = false
+
   USER = user
   HOOK.forEach(
     (f)=>
@@ -53,14 +62,8 @@ _setUser = (user)=>
   return
 
 < setUser = (user)=>
-  if user and USER
-    # 就是当前用户
-    if user.every(
-      (e, i)=>
-        e == USER[i]
-    )
-      return
-
+  if isSame(user)
+    return
   cookieSet(
     'V'
     (
@@ -102,5 +105,13 @@ export initUser = (authMe, authLang)=>
   return
 
 # 广播用户消息
-bcHook(0,_setUser)
+bcHook(
+  0
+  (user)=>
+    if isSame(user)
+      return
+    _setUser user
+    return
+)
+
 wHook(0,setUser)

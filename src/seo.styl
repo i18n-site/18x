@@ -1,0 +1,73 @@
+nav
+  font-family h
+  font-size 14px
+  font-variation-settings 'wght' 400, 'BEVL' 30
+
+  &>h1
+    font-size 16px
+    margin 0 0 16px
+
+nav, main, article
+  box-sizing border-box
+
+body
+  cursor default
+  overflow auto
+
+body a, body button
+  cursor pointer
+
+body>main
+  height 100vh
+  padding 0 24px 24px
+
+body>main>nav
+  order -9
+  padding 24px 0 0
+
+  &>a
+    margin-left 32px
+    position relative
+
+    &:before
+      color #999
+      content '❯'
+      font-size 12px
+      left -21px
+      line-height 26px
+      position absolute
+
+    &:first-child
+      margin-left 0
+
+      &:before
+        content ''
+
+body>nav
+  display flex
+  flex-direction column
+  padding 24px
+
+body>main
+  display flex
+  flex-direction column
+
+body>main
+  &>article, &>footer>div
+    font-size 16px
+    margin auto
+    max-width 800px
+
+@media (min-width 800px)
+  body>main:has(+nav)
+    &>article, &>footer>div
+      max-width 1100px
+      padding-left 324px
+
+  body>main+nav
+    border-right 1px solid #eee
+    height 100vh
+    left 0
+    overflow auto
+    position fixed
+    width 300px

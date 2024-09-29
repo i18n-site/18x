@@ -4,14 +4,12 @@ import fBintxt from "x/fBintxt.js"
 const SET = new Set()
 
 onSet(async (lang) => {
-	let i = lang.length
-	while (--i) {
-		if (_LANG[i][1] === lang) break
-	}
 	_L.splice(
 		0,
 		_L.length,
-		...(await fBintxt(_V + "@" + _lV(i) + "/" + lang + ".js")),
+		...(await fBintxt(
+			_V + "@" + _lV(_LANG.map((i) => i[1]).indexOf(lang)) + "/" + lang + ".js",
+		)),
 	)
 	SET.forEach((i) => i(lang))
 })

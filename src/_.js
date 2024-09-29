@@ -2,7 +2,8 @@ import { fJson as _fJson, fTxt as _fTxt } from "x/f.js"
 import isPrefix from "x/isPrefix.js"
 
 const HTM = document.documentElement
-const vUrl = (ver, url) => _V + "@" + ver + "/" + url
+
+export const vUrl = (ver, url) => _V + "@" + ver + "/" + url
 
 const _fd = (trie, url) => {
 	let p
@@ -19,17 +20,32 @@ const _fd = (trie, url) => {
 	return p === undefined ? -1 : p
 }
 
-let PRE
+let LANG
 
 export const TRIE = []
 
-export const fd = async (ext, url) => {
+export const reset = () => {
 	const { lang } = HTM
-	// 当修改了语言 清空 url
-	if (PRE != lang) {
-		PRE = lang
-		TRIE.splice(0, TRIE.length)
+	if (LANG != lang) {
+		TRIE.splice(0)
+		LANG = lang
 	}
+	return LANG
+}
+
+export const trieN = async (prefix, ver, n) => {
+	const [ver_li, lang_ver_pos] = await _fJson(vUrl(ver, prefix + ".js")),
+		lang_ver = ver_li[lang_ver_pos[LANG] || 0],
+		trie = await _fJson(vUrl(lang_ver, LANG + "/" + prefix + ".json"))
+
+	trie[0] = trie[0].split(";")
+	TRIE[n] = trie
+	return trie
+}
+
+export const fd = async (ext, url) => {
+	reset()
+	// 当修改了语言 清空 url
 	let n = 0
 	for (const [
 		prefix,
@@ -40,12 +56,7 @@ export const fd = async (ext, url) => {
 		if (isPrefix(prefix, url)) {
 			let trie = TRIE[n]
 			if (!trie) {
-				const [ver_li, lang_ver_pos] = await _fJson(vUrl(ver, prefix + ".js")),
-					lang_ver = ver_li[lang_ver_pos[lang] || 0]
-				TRIE[n] = trie = await _fJson(
-					vUrl(lang_ver, lang + "/" + prefix + ".json"),
-				)
-				trie[0] = trie[0].split(";")
+				trie = await trieN(prefix, ver, n)
 			}
 
 			const ver_pos = _fd(
@@ -55,7 +66,7 @@ export const fd = async (ext, url) => {
 			if (~ver_pos) {
 				return vUrl(
 					trie[0][ver_pos],
-					lang + "/" + (ext ? url + "." + ext : url),
+					LANG + "/" + (ext ? url + "." + ext : url),
 				)
 			}
 
@@ -73,6 +84,7 @@ export const fV = (ext, get) => {
 		return url ? get(url) : 0
 	}
 }
+
 export const fJson = fV("json", _fJson)
 export const fMd = fV("md", _fTxt)
 

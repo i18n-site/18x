@@ -10,6 +10,7 @@ de() {
 }
 de ./swc.coffee
 de ./pkg.ver.coffee
+./mouse/build.sh
 gci
 cp README.md lib
 cd lib

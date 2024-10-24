@@ -7,10 +7,8 @@
   @3-/write
   @3-/coffee_plus
   coffeescript:CoffeeScript
-  ./serviceWorker.build.coffee:serviceWorkerBuild
   ./miniCss.coffee
 
-serviceWorkerBuild()
 
 compile = CoffeePlus(CoffeeScript)
 

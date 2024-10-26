@@ -1,0 +1,69 @@
+
+details, summary, summary:before
+  box-shadow 0 0 3px inset #ccc
+
+details
+  background linear-gradient(0, #f9f9f9, #fff)
+  border 1px solid #ccc
+  border-bottom 0
+  margin-bottom 1rem
+
+  &>ol, &>ul
+    margin 0.5rem 1rem 0.5rem 3rem
+
+    p
+      margin-left 0
+
+  p
+    margin 0.5rem 1rem
+
+  &>summary
+    background linear-gradient(0, #fcfcfc, #fff)
+    border-bottom 1px solid #ccc
+    box-shadow 0 0 5px inset #eee
+    cursor pointerv
+    display block
+    display flex
+    list-style-type none
+    overflow hidden
+    position relative
+    transition all 0.2s
+
+    &>p
+      margin-right 2.5rem
+
+    &:before
+      background linear-gradient(0, #f3f3f3, #fff)
+      background var(--svgNabla) 50% 60% / 12px no-repeat
+      border-left 1px solid #ccc
+      bottom 0
+      box-shadow-color #f9f9f9
+      box-sizing border-box
+      content ''
+      display block
+      opacity 0.5
+      position absolute
+      right 0
+      top 0
+      transition opacity 0.2s
+      width 2.5rem
+
+    &:hover
+      background linear-gradient(0, #f0f0f0, #fff)
+      box-shadow 0 0 5px inset #ccc
+
+      &:before
+        opacity 1
+
+  &[open]
+    border-bottom 1px solid #ccc
+    padding-bottom 0.5rem
+
+    &>summary
+      margin-bottom 1rem
+
+      &:before
+        background-position 50% 55%
+        border-left 0
+        border-right 1px solid #ccc
+        transform rotate(180deg)

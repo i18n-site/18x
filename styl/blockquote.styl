@@ -1,0 +1,58 @@
+@css {
+  blockquote.M{
+    --c:#fe0;
+    background: linear-gradient(to bottom, #fff, color-mix(in lch, var(--c) 10%, #fffff9));
+    border-radius: 8px;
+    border: 2px solid var(--c);
+    box-shadow: 0 0 3px inset color-mix(in lch,var(--c),#666);
+    color: #000;
+    font-weight: 400;
+    margin: 1.5rem 0 1rem;
+    padding: 2px 20px 0;
+  }
+}
+
+blockquote
+  &.M strong
+    font-weight 800
+
+  &.M>ul
+    margin-left 1.5rem
+
+  &.M>ul>li:before
+    margin-left -1.3rem
+
+  &.M:before
+    opacity 1
+
+  &.M:after
+    display none
+
+  &.M:before
+    background var(--svgTIP) 0 0 / cover repeat-y
+    content ''
+    height 32px
+    left -14px
+    position absolute
+    top -14px
+    width 32px
+
+  &.TIP
+    text-shadow 1px -1px 0 #ddd
+
+  &.WARN:before
+    background-image var(--svgWARN)
+
+  &.WARN
+    color #d60
+    --c #f70
+
+  &.NOTE:before
+    background-image var(--svgNOTE)
+
+  &.NOTE
+    color #060
+    --c #97CF4E
+
+  &.M+&.M
+    margin-top 1.5rem

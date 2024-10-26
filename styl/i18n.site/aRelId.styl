@@ -1,0 +1,28 @@
+a[rel=id]
+  background #090
+  border-radius 16px
+  box-shadow 0 0 3px inset #000
+  display block
+  height 50%
+  margin-left -32px
+  position absolute
+  top 25%
+  width 8px
+
+  &:hover
+    background #09f
+    box-shadow 0 0 3px inset #00f
+
+@media (max-width 950px)
+  :root
+    --hARelL 32px
+
+  h1:has(>a[rel=id]), h2:has(>a[rel=id]), h3:has(>a[rel=id]), h4:has(>a[rel=id]), h5:has(>a[rel=id]), h6:has(>a[rel=id]), p:has(>a[rel=id])
+    margin-left var(--hARelL)
+
+@media (max-width 560px)
+  a[rel=id]
+    margin-left -20px
+
+  :root
+    --hARelL 20px

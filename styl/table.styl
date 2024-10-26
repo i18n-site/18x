@@ -1,0 +1,55 @@
+table
+  background linear-gradient(0, #f9f9f9, #fff)
+  border 1px solid #ccc
+  border-collapse collapse
+  box-shadow 0 0 3px #bbb inset
+  margin 1em 0
+  text-align center
+  width 100%
+
+td, tr
+  position relative
+
+tr:before, td:before
+  content ''
+  opacity 0.3
+  position absolute
+
+tr:before
+  background var(--svgHline) repeat-x
+  height 1px
+  left 0
+  right 0
+
+td:before
+  background var(--svgVline) repeat-y
+  bottom 0
+  left 0
+  top 0
+  width 1px
+
+thead
+  background linear-gradient(0, #f9f9f9, #fff)
+  box-shadow 0 0 3px #bbb inset
+
+table tr:first-child:before, table td:first-child:before
+  background none
+
+table>tbody>tr>td, table>thead>tr>th
+  border none
+  padding 16px
+
+summary+table
+  margin-top -1rem
+
+summary+table>thead
+  box-shadow none
+
+summary+table>tbody>tr:first-child:before
+  background var(--svgHline) repeat-x
+
+details>table
+  border 0
+
+details>table:last-child
+  margin-bottom -0.5rem

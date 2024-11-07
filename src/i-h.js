@@ -4,17 +4,14 @@ customElements.define(
 	"i-h",
 	class extends HTMLElement {
 		connectedCallback() {
-			let me = this,
-				func = _H[me.innerHTML]
-			if (func.length) {
-				this._ = onI18n(() => (me.innerHTML = func(_L)))
-			} else {
-				me.innerHTML = func()
+			const me = this,
+				f = _H[me.dataset.h]
+			if (f) {
+				me._ = onI18n(() => (me.innerHTML = f(_L)))
 			}
 		}
 		disconnectedCallback() {
-			const { _ } = this
-			_ && _()
+			this._ && this._()
 		}
 	},
 )

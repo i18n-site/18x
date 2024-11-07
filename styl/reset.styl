@@ -1,203 +1,252 @@
-html, body, input, textarea, b
-  background transparent
-  font 300 18px / 1.875 s, sans-serif
-  text-rendering optimizespeed
-
-ul, ol
-  margin -0.625rem 0 -0.5rem
-
-h1
-  font-size 32px
-
-h2
-  font-size 29px
-
-h3
-  font-size 26px
-
-h4
-  font-size 23px
-
-h5
-  font-size 20px
-
-h6
-  font-size 18px
-
-p>b, p>strong, th
-  font-weight 800
-
-video
-  max-width 100%
-
-u
-  text-decoration underline
-  text-decoration-color #666
-  text-decoration-style double
-  text-decoration-thickness from-font
-  text-underline-offset 9px
-
-a
-  color #03a
-  text-decoration none
-  transition color 0.3s, border 0.3s, font-weight 0.3s
-
-  &:hover
-    color #00f
-
-::marker
-  font-family c
-
-html, body
-  height 100%
-  margin 0
-  padding 0
-  width 100%
-  word-spacing 1px
-
-html:lang(ar), html:lang(ckb), html:lang(dv), html:lang(fa), html:lang(he), html:lang(ps), html:lang(sd), html:lang(ug), html:lang(ur), html:lang(yi)
-  p, a, button, select, textarea, input, h1, h2, h3, h4, h5, h6
-    direction rtl
-
-ol
-  padding 0
-
-body
-  flex-direction column
-
-p, li, pre, code, blockquote
-  position relative
-  word-break break-word
-  word-wrap break-word
-
-p, pre, li
-  white-space pre-wrap
-
-li:has(> p)
-  white-space normal
-
-p, li
-  line-height 1.875
-  margin 1rem 0
-
-form, body
-  align-items center
-  display flex
-  flex-wrap wrap
-
-h1, h2, h3, h4, h5, h6
-  align-items center
-  font-family h, sans-serif
-  font-weight 400
-  letter-spacing 1px
-  margin 1em 0
-  position relative
-  word-spacing 2px
-
-  code
-    font-size 80%
-
-h1, h2, h3, h4, h5, h6, th
-  font-variation-settings 'wght' 500, 'BEVL' 10
-
-th
-  font-family 'h'
-
-code
-  border-radius 7px
-  box-shadow inset 0 0 3px #cf0
-  font-size 15px
-
-input, textarea
-  outline 0
-  padding 18px
-
-pre, code
-  background #fcfff0
-  border 1px dashed #bc0
-  font-family c, monospace
-  padding 2px 6px
-
-pre
-  padding 10px 16px
-
-pre code
-  border 0
-  box-shadow none
-  padding 0
-
-img
-  max-width 100%
-
-hr
-  background var(--svgHline)
-  border 0
-  height 1px
-  margin 32px 0
-  opacity 0.8
-
-blockquote
-  margin 0 0 0 22px
-
-  &:after
-    background var(--svgQ1) 2px 0 / 8px no-repeat, var(--svgHline) 0 100% repeat-x
-    bottom 6px
-    content ''
-    font-size 25px
-    left -25px
-    opacity 0.6
-    position absolute
-    top -3px
-    width 10px
-
-  &:before
-    background var(--svgVline) 0 16px repeat-y
-    bottom 7px
-    content ''
-    left -21px
-    opacity 0.6
-    position absolute
-    top 5px
-    width 1px
-
-p
-  button
-    display inline-block
-
-  strong>a
-    border-bottom 2px solid #03a
-    padding-bottom 6px
-
-    &:hover
-      border-color #f40
-      color #f40
-
-@media (max-width 560px)
+@layer
   html, body, input, textarea, b
-    font-size 16px
-    font-weight 400
+    background transparent
+    font 400 18px / 1.875 s, sans-serif
+    text-rendering geometricPrecision
+
+  ul>li:first-child, ol>li:first-child
+    margin-top 0
+
+  li, ul, ol
+    margin 0
+    padding 0
+    position relative
+
+  ol
+    counter-reset index
+    list-style none
+
+    &>li
+      display table
+
+      &:before
+        content counters(index, '.', decimal) '.'
+        counter-increment index
+        display table-cell
+        padding-right 1rem
+        white-space nowrap
+
+  li>ul
+    margin 0.5rem 0 0.5rem 1.6rem
+
+  li>ol
+    margin 0.5rem 0
 
   h1
-    font-size 22px
+    font-size 32px
 
   h2
-    font-size 21px
+    font-size 29px
 
   h3
-    font-size 20px
+    font-size 26px
 
   h4
-    font-size 19px
+    font-size 23px
 
   h5
-    font-size 18px
+    font-size 20px
 
   h6
-    font-size 17px
+    font-size 18px
 
-  ol, ul
-    margin -0.25rem 0
+  p>b, p>strong, th
+    font-weight 800
+
+  video
+    max-width 100%
+
+  u
+    text-decoration underline
+    text-decoration-color #666
+    text-decoration-style double
+    text-decoration-thickness from-font
+    text-underline-offset 9px
+
+  a
+    color #03a
+    text-decoration none
+    transition color 0.3s, border 0.3s, font-weight 0.3s
+
+    &:hover
+      color #00f
+      text-shadow 0 0 1px #66c
+
+  html, body
+    height 100%
+    margin 0
+    padding 0
+    width 100%
+    word-spacing 1px
+
+  html:lang(ar), html:lang(ckb), html:lang(dv), html:lang(fa), html:lang(he), html:lang(ps), html:lang(sd), html:lang(ug), html:lang(ur), html:lang(yi)
+    p, a, button, select, textarea, input, h1, h2, h3, h4, h5, h6
+      direction rtl
+
+  ol
+    padding 0
+
+  body
+    flex-direction column
+
+  p, li, pre, code, blockquote
+    position relative
+    word-break break-word
+    word-wrap break-word
+
+  p, pre, li
+    white-space pre-wrap
+
+  li:has(> p)
+    white-space normal
 
   p, li
     line-height 1.875
-    margin 0.5rem 0
+
+  p
+    margin 1rem 0
+
+  form, body
+    align-items center
+    display flex
+    flex-wrap wrap
+
+  h1, h2, h3, h4, h5, h6, th
+    font-variation-settings 'wght' 500, 'BEVL' 10
+
+  th
+    font-family 'h'
+
+  code
+    border-radius 7px
+    box-shadow inset 0 0 3px #cf0
+    font-size 15px
+
+  input, textarea
+    outline 0
+    padding 18px
+
+  pre, code
+    background #fcfff0
+    border 1px dashed #bc0
+    font-family c, monospace
+    padding 2px 6px
+
+  pre
+    padding 10px 16px
+
+  pre code
+    border 0
+    box-shadow none
+    padding 0
+
+  img
+    max-width 100%
+
+  hr
+    background var(--svgHline)
+    border 0
+    height 1px
+    margin 32px 0
+    opacity 0.8
+
+  blockquote
+    margin 0 0 0 22px
+
+    &:after
+      background var(--svgQ1) 2px 0 / 8px no-repeat, var(--svgHline) 0 100% repeat-x
+      bottom 6px
+      content ''
+      font-size 25px
+      left -25px
+      opacity 0.6
+      position absolute
+      top -3px
+      width 10px
+
+    &:before
+      background var(--svgVline) 0 16px repeat-y
+      bottom 7px
+      content ''
+      left -21px
+      opacity 0.6
+      position absolute
+      top 5px
+      width 1px
+
+  p
+    button
+      display inline-block
+
+    strong>a
+      border-bottom 2px solid #03a
+      padding-bottom 6px
+
+      &:hover
+        border-color #f40
+        color #f40
+
+  ul>li:before
+    background linear-gradient(#ef0, #ae0)
+    border-radius 8px
+    box-shadow 0 0 2px inset #690
+    content ''
+    height 8px
+    margin-left -1.625rem
+    position absolute
+    top 0.725rem
+    width 8px
+
+  h1, h2, h3, h4, h5, h6
+    align-items center
+    font-family h, sans-serif
+    font-weight 400
+    letter-spacing 1px
+    margin 1em 0
+    position relative
+    word-spacing 2px
+
+    code
+      font-size 80%
+
+  blockquote>ul:last-child, blockquote>ol:last-child
+    margin-bottom 1rem
+
+  blockquote>ul:first-child, blockquote>ol:first-child
+    margin-top 1rem
+
+  ul+img, ol+img, img+ol, img+ul
+    padding-top 1.5rem
+
+  @media (max-width 560px)
+    html, body, input, textarea, b
+      font-size 16px
+      font-weight 400
+
+    h1
+      font-size 22px
+
+    h2
+      font-size 21px
+
+    h3
+      font-size 20px
+
+    h4
+      font-size 19px
+
+    h5
+      font-size 18px
+
+    h6
+      font-size 17px
+
+    ol, ul
+      margin -0.25rem 0
+
+    p, li
+      line-height 1.875
+      margin 0.5rem 0
+
+    p+ul, p+ol, ol+p, ul+p
+      margin-top 1rem

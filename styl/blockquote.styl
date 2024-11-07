@@ -1,13 +1,14 @@
 @css {
   blockquote.M{
+    text-shadow: 1px -1px 0 #eee;
     --c:#fe0;
-    background: linear-gradient(to bottom, #fff, color-mix(in lch, var(--c) 10%, #fffff9));
+    background: linear-gradient(#fff, color-mix(in lch, var(--c) 10%, #fffff9));
     border-radius: 8px;
     border: 2px solid var(--c);
     box-shadow: 0 0 3px inset color-mix(in lch,var(--c),#666);
     color: #000;
-    font-weight: 400;
-    margin: 1.5rem 0 1rem;
+    font-weight: 500;
+    margin: 1.5rem 0;
     padding: 2px 20px 0;
   }
 }
@@ -37,14 +38,11 @@ blockquote
     top -14px
     width 32px
 
-  &.TIP
-    text-shadow 1px -1px 0 #ddd
-
   &.WARN:before
     background-image var(--svgWARN)
 
   &.WARN
-    color #d60
+    color #e60
     --c #f70
 
   &.NOTE:before

@@ -1,12 +1,12 @@
 @import './fade.styl'
 
-.ing
+.wait,.ing
   position relative
 
   &:before
     animation-duration 1s
     animation-name fadeIn
-    background var(--svgWait) 50% 50% / 64px no-repeat rgba(255, 255, 255, 0.6)
+    background var(--svgWait) 50% 50% / 64px no-repeat
     bottom 0
     content ''
     cursor wait
@@ -15,3 +15,11 @@
     right 0
     top 0
     z-index 999
+
+.ing
+  &:before
+    background-color rgba(255, 255, 255, 0.6)
+
+.wait
+  width 64px
+  height 64px
